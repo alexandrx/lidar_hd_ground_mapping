@@ -1,0 +1,9 @@
+<library path="lib/libroad_surface_label">
+  <class name="road_surface_label/RoadLabeling"
+         type="road_surface_label::RoadLabelingTool"
+         base_class_type="rviz::Tool">
+    <description>
+      Tool to label road point cloud data
+    </description>
+  </class>
+</library>

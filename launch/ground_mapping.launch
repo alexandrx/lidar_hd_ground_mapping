@@ -1,0 +1,70 @@
+<!-- Ground mapping launch file -->
+<launch>
+  <!-- Input parameters -->
+  <arg name="min_height" default="-800.0" />
+  <arg name="max_height" default="200.0" />
+  <arg name="input_pointcloud_topic" default="/points_raw" />
+  <!-- <arg name="input_pointcloud_topic" default="/velodyne_points" /> --> <!-- for cmob -->
+  <arg name="output_pointcloud_topic" default="/points_raw_ground" />
+  <arg name="grid_pointcloud_topic" default="/points_ground_grid" />
+  <arg name="obstacle_pointcloud_topic" default="/points_obstacles" />
+  <arg name="ground_pointcloud_topic" default="/points_ground" />
+  <!--<arg name="lidar_pose" default="[1.2, 0.0, 2.0, 0.0, 0.0, 0.0]" />--> <!-- for PVH vehicle-->
+  <arg name="lidar_pose" default="[0.3, 0.0, 1.2, 0.0, 0.0, 0.0]" /> <!-- for mobile robot-->
+  <arg name="source_tf" default="world" />
+  <arg name="target_tf" default="velodyne" />
+  <!--<arg name="target_tf" default="velo_link" /> --> <!-- for kitti dataset -->
+  <arg name="grid_width" default="-1" />
+  <arg name="grid_height" default="-1" />
+  <arg name="grid_cell_size" default="1.0" />
+  <arg name="generate_grid_data" default="false" />
+  <arg name="generate_obstacle_data" default="true" />
+  <arg name="generate_ground_data" default="true" />
+  <arg name="obstacle_height_threshold" default="0.1" />
+  <arg name="filter_grid_points" default="false" />
+  <arg name="filter_input_points" default="false" /> <!--filtering is not good to detect far things-->
+  <arg name="filter_input_rings" default="-1" /> <!--will remove the first N rings, <=0 will not filter-->
+  <arg name="filter_by_height" default="true" /> <!--filter points below filter_height_limit-->
+  <arg name="filter_height_limit" default="-2.5" /> <!--will remove the first N rings, <=min_height will not filter-->
+  <arg name="hide_opengl_window" default="true" />
+  <arg name="max_update_distance" default="-1.0" />
+  <arg name="merge_with_past_frame" default="false" />
+  <arg name="accumulate_height" default="false" />  
+  
+  <arg name="map_loader_mode" default="false" /> <!--when using this, save_height_map must be false-->
+  <arg name="save_height_map" default="true" /> <!--when using this, map_loader_mode must be false-->
+  <arg name="height_map_filename_prefix" default="/media/alexandr/AlexLogs-2/Logs/nagoya_20171211/ground_map_all/hd_depth_maps" />
+  <arg name="save_every_scan" default="true" />
+
+  <node pkg="lidar_road_surface" type="ground_mapping" name="ground_mapping" output="screen">
+    <param name="min_height" value="$(arg min_height)" />
+    <param name="max_height" value="$(arg max_height)" />
+    <param name="input_pointcloud_topic" value="$(arg input_pointcloud_topic)" />
+    <param name="output_pointcloud_topic" value="$(arg output_pointcloud_topic)" />
+    <param name="grid_pointcloud_topic" value="$(arg grid_pointcloud_topic)" />
+    <param name="obstacle_pointcloud_topic" value="$(arg obstacle_pointcloud_topic)" />
+    <param name="ground_pointcloud_topic" value="$(arg ground_pointcloud_topic)" />
+    <rosparam param="lidar_pose" subst_value="True">$(arg lidar_pose)</rosparam> <!-- this form for arrays... -->
+    <param name="source_tf" value="$(arg source_tf)" />
+    <param name="target_tf" value="$(arg target_tf)" />
+	<param name="grid_cell_size" value="$(arg grid_cell_size)" />
+	<param name="generate_grid_data" value="$(arg generate_grid_data)" />
+	<param name="generate_obstacle_data" value="$(arg generate_obstacle_data)" />
+	<param name="generate_ground_data" value="$(arg generate_ground_data)" />
+	<param name="obstacle_height_threshold" value="$(arg obstacle_height_threshold)" />
+	<param name="filter_grid_points" value="$(arg filter_grid_points)" />
+	<param name="filter_input_points" value="$(arg filter_input_points)" />
+	<param name="filter_input_rings" value="$(arg filter_input_rings)" />
+	<param name="filter_by_height" value="$(arg filter_by_height)" />
+	<param name="filter_height_limit" value="$(arg filter_height_limit)" />
+	<param name="hide_opengl_window" value="$(arg hide_opengl_window)" />
+	<param name="max_update_distance" value="$(arg max_update_distance)" />
+	<param name="merge_with_past_frame" value="$(arg merge_with_past_frame)" />
+	<param name="accumulate_height" value="$(arg accumulate_height)" /> 
+	<param name="map_loader_mode" value="$(arg map_loader_mode)" />
+	<param name="save_height_map" value="$(arg save_height_map)" />
+	<param name="height_map_filename_prefix" value="$(arg height_map_filename_prefix)" />
+	<param name="save_every_scan" value="$(arg save_every_scan)" />
+  </node>
+
+</launch>
